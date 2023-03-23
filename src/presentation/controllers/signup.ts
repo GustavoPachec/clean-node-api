@@ -15,6 +15,6 @@ export class SignUpController {
         body: new MissingParamError('email')
       }
     }
-    return this.handle();
+    return this.handle()
   }
 }
