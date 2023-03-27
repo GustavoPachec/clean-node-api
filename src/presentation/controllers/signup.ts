@@ -1,20 +1,29 @@
+/* eslint-disable consistent-return */
 import { HttpResponse, HttpRequest} from '../protocols/http'
 import { MissingParamError } from '../errors/missing-param-error'
+import { InvalidParamError } from '../errors/invalid-param-error copy'
+import { badRequest } from '../helpers/http-helper'
+import { Controller } from '../protocols/controller'
+import { EmailValidator } from '../protocols/email-validator'
 
-export class SignUpController {
+export class SignUpController implements Controller {
+  private readonly emailValidator: EmailValidator
+
+  constructor (emailValidator: EmailValidator){
+    this.emailValidator = emailValidator
+  }
+
   handle (httpRequest: HttpRequest): HttpResponse {
-    if(!httpRequest.body.name){
-      return {
-        statusCode: 400,
-        body: new MissingParamError('name')
+    const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
+    // eslint-disable-next-line no-restricted-syntax
+    for (const field of requiredFields) {
+      if(!httpRequest.body[field]) {
+        return badRequest(new MissingParamError(field))
       }
     }
-    if(!httpRequest.body.email){
-      return {
-        statusCode: 400,
-        body: new MissingParamError('email')
-      }
+    const isValid = this.emailValidator.isValid(httpRequest.body.email)
+    if(!isValid){
+      return badRequest(new InvalidParamError('email'))
     }
-    return this.handle()
   }
 }
