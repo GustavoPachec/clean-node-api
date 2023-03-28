@@ -3,11 +3,15 @@ import { SignUpController } from "./signup"
 import { MissingParamError, InvalidParamError, ServerError } from '../errors'
 import { EmailValidator } from '../protocols'
 
+/* Estrutura que define a sintaxe para as classes. As classes derivadas de uma interface devem seguir a estrutura fornecida por sua interface */
 interface SutTypes {
   sut: SignUpController
   emailValidatorStub: EmailValidator
 }
 
+// Cria uma variável e atribui a ela uma arrow function que recebe uma tipagem do tipo EmailValidator, ou seja tudo o que foi passado para o objeto EmailValidator, Aqui na classe vai ter que retonar o que foi designado em EmailValidator
+// Logo após a função isValid implementa o que foi atribuido ao EmalValidator
+// Por fim retorna uma instância de EmailValidator, que sera um objeto que de fato que vai representar EmailValidator
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
     isValid(_email: string): boolean {
@@ -17,15 +21,8 @@ const makeEmailValidator = (): EmailValidator => {
   return new EmailValidatorStub
 }
 
-const makeEmailValidatorWithError = (): EmailValidator => {
-  class EmailValidatorStub implements EmailValidator {
-    isValid(_email: string): boolean {
-      throw new Error
-    }
-  }
-  return new EmailValidatorStub
-}
-
+// const makeSut recebe os valores do tipo SutTypes logo após a const emailValidatorStub recebe a função makeEmailValidator
+// sut recebe uma nova instância de SignUpController que recebe emailValidatorStub e depois temos um return de sut, e emailValidatorStub
 const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator()
   const sut =  new SignUpController(emailValidatorStub)
@@ -35,7 +32,9 @@ const makeSut = (): SutTypes => {
   }
 }
 
+// Describe é usado para agrupar um conjunto de testes relacionados em um bloco.
 describe('SignUp Controller', () => {
+  //
   test('Should return 400 if no name is provided', () => {
     const {sut} = makeSut()
     const httpRequest = {
@@ -77,6 +76,7 @@ describe('SignUp Controller', () => {
     expect (httpResponse.statusCode).toBe(400)
     expect (httpResponse.body).toEqual(new MissingParamError('password'))
   })
+
   test('Should return 400 if no password confitmation is provided', () => {
     const {sut} = makeSut()
     const httpRequest = {
@@ -123,8 +123,10 @@ describe('SignUp Controller', () => {
   })
 
   test('Should return 500 if an invalid email is provided', () => {
-    const emailValidatorStub = makeEmailValidatorWithError()
-    const sut = new SignUpController(emailValidatorStub)
+    const {sut, emailValidatorStub} = makeSut()
+    jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
     const httpRequest = {
       body: {
         name: 'any_name',
