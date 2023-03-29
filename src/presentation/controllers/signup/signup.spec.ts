@@ -1,9 +1,7 @@
 // eslint-disable-next-line max-classes-per-file
 import { SignUpController } from "./signup"
-import { MissingParamError, InvalidParamError, ServerError } from '../errors'
-import { EmailValidator } from '../protocols'
-import { AccountModel } from "../../domain/models/account"
-import  { AddAccount, AddAccountModel } from '../../domain/usecases/add-account'
+import { MissingParamError, InvalidParamError, ServerError } from '../../errors'
+import { EmailValidator, AccountModel, AddAccount, AddAccountModel} from './signup-protocols'
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
@@ -27,6 +25,7 @@ const makeAddAccount = (): AddAccount => {
   }
   return new AddAccountStub()
 }
+
 interface SutTypes {
   sut: SignUpController
   emailValidatorStub: EmailValidator
@@ -44,6 +43,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
+// Describe é usado para agrupar um conjunto de testes relacionados em um bloco.
 describe('SignUp Controller', () => {
   //
   test('Should return 400 if no name is provided', () => {
@@ -148,7 +148,7 @@ describe('SignUp Controller', () => {
     expect(isValidSpy).toHaveBeenCalledWith('any_email@mail.com')
   })
 
-  test('Should return 500 if EmailValidator throws', () => {
+  test('Should return 500 if an invalid email is provided', () => {
     const {sut, emailValidatorStub} = makeSut()
     jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
       throw new Error()
@@ -181,7 +181,7 @@ describe('SignUp Controller', () => {
     expect(addSpy).toHaveBeenCalledWith({
         name: 'any_name',
         email: 'any_email@mail.com',
-        password: 'any_password',
+        password: 'any_password'
     })
   })
 })
