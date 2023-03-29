@@ -3,11 +3,8 @@ import { SignUpController } from "./signup"
 import { MissingParamError, InvalidParamError, ServerError } from '../errors'
 import { EmailValidator } from '../protocols'
 import { AccountModel } from "../../domain/models/account"
-import  { AddAccount } from '../../domain/usecases/add-account'
+import  { AddAccount, AddAccountModel } from '../../domain/usecases/add-account'
 
-// Cria uma variável e atribui a ela uma arrow function que recebe uma tipagem do tipo EmailValidator, ou seja tudo o que foi passado para o objeto EmailValidator, Aqui na classe vai ter que retonar o que foi designado em EmailValidator
-// Logo após a função isValid implementa o que foi atribuido ao EmalValidator
-// Por fim retorna uma instância de EmailValidator, que sera um objeto que de fato que vai representar EmailValidator
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
     isValid(_email: string): boolean {
@@ -18,7 +15,7 @@ const makeEmailValidator = (): EmailValidator => {
 }
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-   add (_account: AddAccount): AccountModel {
+   add (_account: AddAccountModel): AccountModel {
       const fakeAccount = {
         id: 'valid_id',
         name: 'valid_name',
@@ -30,8 +27,6 @@ const makeAddAccount = (): AddAccount => {
   }
   return new AddAccountStub()
 }
-
-/* Estrutura que define a sintaxe para as classes. As classes derivadas de uma interface devem seguir a estrutura fornecida por sua interface */
 interface SutTypes {
   sut: SignUpController
   emailValidatorStub: EmailValidator
@@ -49,7 +44,6 @@ const makeSut = (): SutTypes => {
   }
 }
 
-// Describe é usado para agrupar um conjunto de testes relacionados em um bloco.
 describe('SignUp Controller', () => {
   //
   test('Should return 400 if no name is provided', () => {
@@ -154,7 +148,7 @@ describe('SignUp Controller', () => {
     expect(isValidSpy).toHaveBeenCalledWith('any_email@mail.com')
   })
 
-  test('Should return 500 if an invalid email is provided', () => {
+  test('Should return 500 if EmailValidator throws', () => {
     const {sut, emailValidatorStub} = makeSut()
     jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
       throw new Error()
@@ -187,7 +181,7 @@ describe('SignUp Controller', () => {
     expect(addSpy).toHaveBeenCalledWith({
         name: 'any_name',
         email: 'any_email@mail.com',
-        password: 'any_password'
+        password: 'any_password',
     })
   })
 })

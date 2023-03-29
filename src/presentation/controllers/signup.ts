@@ -5,7 +5,7 @@ import { badRequest, serverError } from '../helpers/http-helper'
 import { AddAccount } from '../../domain/usecases/add-account'
 
 export class SignUpController implements Controller {
-  private readonly emailValidator: EmailValidator
+  private readonly emailValidator:  EmailValidator
 
   private readonly addAccount: AddAccount
 
@@ -23,7 +23,7 @@ export class SignUpController implements Controller {
           return badRequest(new MissingParamError(field))
         }
       }
-      const {name, email, password, passworConfirmation } = httpRequest.body
+      const { name, email, password, passworConfirmation } = httpRequest.body
       if(password !== passworConfirmation){
         return badRequest(new InvalidParamError('passwordConfirmation'))
       }
