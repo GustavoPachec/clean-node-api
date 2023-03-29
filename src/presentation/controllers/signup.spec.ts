@@ -2,12 +2,8 @@
 import { SignUpController } from "./signup"
 import { MissingParamError, InvalidParamError, ServerError } from '../errors'
 import { EmailValidator } from '../protocols'
-
-/* Estrutura que define a sintaxe para as classes. As classes derivadas de uma interface devem seguir a estrutura fornecida por sua interface */
-interface SutTypes {
-  sut: SignUpController
-  emailValidatorStub: EmailValidator
-}
+import { AccountModel } from "../../domain/models/account"
+import  { AddAccount } from '../../domain/usecases/add-account'
 
 // Cria uma variável e atribui a ela uma arrow function que recebe uma tipagem do tipo EmailValidator, ou seja tudo o que foi passado para o objeto EmailValidator, Aqui na classe vai ter que retonar o que foi designado em EmailValidator
 // Logo após a função isValid implementa o que foi atribuido ao EmalValidator
@@ -20,15 +16,36 @@ const makeEmailValidator = (): EmailValidator => {
   }
   return new EmailValidatorStub
 }
+const makeAddAccount = (): AddAccount => {
+  class AddAccountStub implements AddAccount {
+   add (_account: AddAccount): AccountModel {
+      const fakeAccount = {
+        id: 'valid_id',
+        name: 'valid_name',
+        email: 'valid_email@mail.com',
+        password: 'valid_password'
+      }
+      return fakeAccount
+    }
+  }
+  return new AddAccountStub()
+}
 
-// const makeSut recebe os valores do tipo SutTypes logo após a const emailValidatorStub recebe a função makeEmailValidator
-// sut recebe uma nova instância de SignUpController que recebe emailValidatorStub e depois temos um return de sut, e emailValidatorStub
+/* Estrutura que define a sintaxe para as classes. As classes derivadas de uma interface devem seguir a estrutura fornecida por sua interface */
+interface SutTypes {
+  sut: SignUpController
+  emailValidatorStub: EmailValidator
+  addAccountStub: AddAccount
+}
+
 const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator()
-  const sut =  new SignUpController(emailValidatorStub)
+  const addAccountStub = makeAddAccount()
+  const sut = new SignUpController(emailValidatorStub, addAccountStub )
   return {
     sut,
-    emailValidatorStub
+    emailValidatorStub,
+    addAccountStub
   }
 }
 
@@ -119,7 +136,7 @@ describe('SignUp Controller', () => {
     }
     const httpResponse = sut.handle(httpRequest)
     expect (httpResponse.statusCode).toBe(400)
-    expect (httpResponse.body).toEqual(new InvalidParamError('email'))
+    expect (httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation'))
   })
 
   test('Should call EmailValidator with correct email ', () => {
@@ -153,5 +170,24 @@ describe('SignUp Controller', () => {
     const httpResponse = sut.handle(httpRequest)
     expect (httpResponse.statusCode).toBe(500)
     expect (httpResponse.body).toEqual(new ServerError())
+  })
+
+   test('Should call AddAccount with correct values', () => {
+    const {sut, addAccountStub} = makeSut()
+    const addSpy = jest.spyOn(addAccountStub, 'add')
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+      }
+    }
+    sut.handle(httpRequest)
+    expect(addSpy).toHaveBeenCalledWith({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password'
+    })
   })
 })
