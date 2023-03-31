@@ -13,7 +13,7 @@ export class SignUpController implements Controller {
     this.addAccount = addAccount
   }
 
-  handle (httpRequest: HttpRequest): HttpResponse {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
       // eslint-disable-next-line no-restricted-syntax
@@ -22,7 +22,7 @@ export class SignUpController implements Controller {
           return badRequest(new MissingParamError(field))
         }
       }
-      const { name, email, password, passwordConfirmation } = httpRequest.body
+      const { name, email, password, passwordConfirmation }  = httpRequest.body
       if(password !== passwordConfirmation){
         return badRequest(new InvalidParamError('passwordConfirmation'))
       }
@@ -30,7 +30,7 @@ export class SignUpController implements Controller {
       if(!isValid){
         return badRequest(new InvalidParamError('email'))
       }
-      const account = this.addAccount.add({
+      const account = await this.addAccount.add({
         name,
         email,
         password
