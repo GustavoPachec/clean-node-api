@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1680293410580" clover="3.2.0">
-  <project timestamp="1680293410580" name="All files">
-    <metrics statements="92" coveredstatements="64" conditionals="18" coveredconditionals="14" methods="9" coveredmethods="5" elements="119" coveredelements="83" complexity="0" loc="92" ncloc="92" packages="5" files="7" classes="7"/>
+<coverage generated="1680543321519" clover="3.2.0">
+  <project timestamp="1680543321519" name="All files">
+    <metrics statements="121" coveredstatements="82" conditionals="24" coveredconditionals="17" methods="15" coveredmethods="8" elements="160" coveredelements="107" complexity="0" loc="121" ncloc="121" packages="6" files="13" classes="13"/>
+    <package name="domain.models">
+      <metrics statements="6" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <file name="account.ts" path="/home/gustavo/projects/Clean-Node-Api/src/domain/models/account.ts">
+        <metrics statements="6" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+      </file>
+    </package>
     <package name="domain.usecases">
       <metrics statements="11" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="add-account.ts" path="/home/gustavo/projects/Clean-Node-Api/src/domain/usecases/add-account.ts">
@@ -76,12 +88,39 @@
       </file>
     </package>
     <package name="presentation.errors">
-      <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="21" coveredstatements="21" conditionals="3" coveredconditionals="3" methods="3" coveredmethods="3"/>
       <file name="index.ts" path="/home/gustavo/projects/Clean-Node-Api/src/presentation/errors/index.ts">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
+      </file>
+      <file name="invalid-param-error copy.ts" path="/home/gustavo/projects/Clean-Node-Api/src/presentation/errors/invalid-param-error copy.ts">
+        <metrics statements="6" coveredstatements="6" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+      </file>
+      <file name="missing-param-error.ts" path="/home/gustavo/projects/Clean-Node-Api/src/presentation/errors/missing-param-error.ts">
+        <metrics statements="6" coveredstatements="6" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="3" count="8" type="stmt"/>
+        <line num="4" count="8" type="stmt"/>
+        <line num="5" count="8" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+      </file>
+      <file name="server-error.ts" path="/home/gustavo/projects/Clean-Node-Api/src/presentation/errors/server-error.ts">
+        <metrics statements="6" coveredstatements="6" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
       </file>
     </package>
     <package name="presentation.helpers">
@@ -109,7 +148,7 @@
       </file>
     </package>
     <package name="presentation.protocols">
-      <metrics statements="13" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <metrics statements="18" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="0"/>
       <file name="controller.ts" path="/home/gustavo/projects/Clean-Node-Api/src/presentation/protocols/controller.ts">
         <metrics statements="5" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
@@ -117,6 +156,12 @@
         <line num="3" count="0" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
+      </file>
+      <file name="email-validator.ts" path="/home/gustavo/projects/Clean-Node-Api/src/presentation/protocols/email-validator.ts">
+        <metrics statements="3" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
       </file>
       <file name="http.ts" path="/home/gustavo/projects/Clean-Node-Api/src/presentation/protocols/http.ts">
         <metrics statements="8" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -128,6 +173,11 @@
         <line num="6" count="0" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
+      </file>
+      <file name="index.ts" path="/home/gustavo/projects/Clean-Node-Api/src/presentation/protocols/index.ts">
+        <metrics statements="2" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="2" count="0" type="stmt"/>
       </file>
     </package>
   </project>
