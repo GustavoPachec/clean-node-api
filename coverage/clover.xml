@@ -1,49 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1680722640925" clover="3.2.0">
-  <project timestamp="1680722640925" name="All files">
-    <metrics statements="28" coveredstatements="18" conditionals="6" coveredconditionals="4" methods="4" coveredmethods="2" elements="38" coveredelements="24" complexity="0" loc="28" ncloc="28" packages="2" files="3" classes="3"/>
-    <package name="data.protocols">
-      <metrics statements="6" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
-      <file name="add-account-repository.ts" path="/home/gustavo/projects/Clean-Node-Api/src/data/protocols/add-account-repository.ts">
-        <metrics statements="6" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-      </file>
-    </package>
-    <package name="usecases.add-account">
-      <metrics statements="22" coveredstatements="18" conditionals="5" coveredconditionals="4" methods="3" coveredmethods="2"/>
-      <file name="db-add-account-protocols.ts" path="/home/gustavo/projects/Clean-Node-Api/src/usecases/add-account/db-add-account-protocols.ts">
-        <metrics statements="4" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-      </file>
-      <file name="db-add-account.ts" path="/home/gustavo/projects/Clean-Node-Api/src/usecases/add-account/db-add-account.ts">
-        <metrics statements="18" coveredstatements="18" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="9" count="3" type="stmt"/>
-        <line num="10" count="3" type="stmt"/>
-        <line num="11" count="3" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="14" count="3" type="stmt"/>
-        <line num="15" count="2" type="cond" truecount="1" falsecount="0"/>
-        <line num="16" count="2" type="cond" truecount="1" falsecount="0"/>
-        <line num="17" count="2" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-      </file>
-    </package>
+<coverage generated="1680788108542" clover="3.2.0">
+  <project timestamp="1680788108542" name="All files">
+    <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0" elements="0" coveredelements="0" complexity="0" loc="0" ncloc="0" packages="0" files="0" classes="0"/>
   </project>
 </coverage>
