@@ -3,14 +3,17 @@ import { MongoClient, Collection } from 'mongodb';
 export const MongoHelper = {
   client: null as MongoClient,
   uri: null as string,
+
   async connect(uri: string): Promise<void> {
     this.uri = uri;
     this.client = await MongoClient.connect(uri);
   },
+
   async disconnect(): Promise<void> {
     await this.client.close();
     this.client = null;
   },
+
   async getCollection(name: string): Promise<Collection> {
     if (!this.client?.topology) {
       await this.connect(this.uri);
@@ -18,8 +21,8 @@ export const MongoHelper = {
     return this.client.db().collection(name);
   },
 
-  map: (collection: any): any => {
-    const { _id: id, ...collectionWithoutId } = collection;
-    return { ...collectionWithoutId, id };
+  map: (data: any): any => {
+    const { _id: id, ...rest } = data;
+    return { ...rest, id };
   },
 };
