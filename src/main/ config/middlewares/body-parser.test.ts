@@ -3,7 +3,7 @@ import app from '../app'
 
 describe('Body Parser Middleware', () => {
   test('', async () => {
-    app.post('/teste_body_parser', (req, res) => {
+    app.post('/test_body_parser', (req, res) => {
       res.send(req.body)
     })
     await request(app)
