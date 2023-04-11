@@ -1,7 +1,7 @@
 module.exports = {
   mongodbMemoryServerOptions: {
     instance: {
-      dbaname: 'jest'
+      dbName: 'jest'
     },
     binary: {
       version: '4.0.3',
