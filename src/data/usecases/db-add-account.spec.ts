@@ -1,72 +1,81 @@
 // eslint-disable-next-line max-classes-per-file
-import { AccountModel, AddAccountModel, Encrypter, AddAccountRepository  } from "./db-add-account-protocols"
-import { DbAddAccount } from "./db-add-account"
+import {
+  AccountModel,
+  AddAccountModel,
+  Encrypter,
+  AddAccountRepository,
+} from './db-add-account-protocols';
+import { DbAddAccount } from './db-add-account';
 
 const makeEncrypter = (): Encrypter => {
   class EncrypterStub implements Encrypter {
-    async encrypt (_value: string): Promise<string> {
-      return new Promise(resolve => resolve('hashed_valid'))
+    async encrypt(_value: string): Promise<string> {
+      return new Promise((resolve) => resolve('hashed_valid'));
     }
   }
-  return new EncrypterStub()
-}
+  return new EncrypterStub();
+};
 
 const makeAddAccountRepository = (): AddAccountRepository => {
   class AddAccountRepositoryStub implements AddAccountRepository {
-    async add (_accountData: AddAccountModel): Promise<AccountModel> {
+    async add(_accountData: AddAccountModel): Promise<AccountModel> {
       const fakeAccount = {
         id: 'valid_id',
         name: 'valid_name',
         email: 'valid_email',
-        password: 'hashed_password'
-      }
-      return new Promise(resolve => resolve(fakeAccount))
+        password: 'hashed_password',
+      };
+      return new Promise((resolve) => resolve(fakeAccount));
     }
   }
-  return new AddAccountRepositoryStub()
-}
+  return new AddAccountRepositoryStub();
+};
 
 interface SutTypes {
   sut: DbAddAccount;
   encrypterStub: Encrypter;
-  addAccountRepositoryStub: AddAccountRepository
+  addAccountRepositoryStub: AddAccountRepository;
 }
 
 const makeSut = (): SutTypes => {
-  const encrypterStub = makeEncrypter()
-  const addAccountRepositoryStub = makeAddAccountRepository()
-  const sut = new DbAddAccount(encrypterStub, addAccountRepositoryStub)
+  const encrypterStub = makeEncrypter();
+  const addAccountRepositoryStub = makeAddAccountRepository();
+  const sut = new DbAddAccount(encrypterStub, addAccountRepositoryStub);
   return {
     sut,
     encrypterStub,
-    addAccountRepositoryStub
-  }
-}
+    addAccountRepositoryStub,
+  };
+};
 
 describe('DbAddAccount Usecase', () => {
   test('Should call Encrypter with correct password', async () => {
-    const { sut, encrypterStub } = makeSut()
-    const encryptSpy = jest.spyOn(encrypterStub, 'encrypt')
+    const { sut, encrypterStub } = makeSut();
+    const encryptSpy = jest.spyOn(encrypterStub, 'encrypt');
     const accountData = {
       name: 'valid_name',
       email: 'valid_email',
-      password: 'valid_password'
-    }
-    await sut.add(accountData)
-    expect(encryptSpy).toHaveBeenCalledWith('valid_password')
-  })
+      password: 'valid_password',
+    };
+    await sut.add(accountData);
+    expect(encryptSpy).toHaveBeenCalledWith('valid_password');
+  });
 
   test('Should throw if Encrypter throws', async () => {
-    const { sut, encrypterStub } = makeSut()
-    jest.spyOn(encrypterStub, 'encrypt').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    const { sut, encrypterStub } = makeSut();
+    jest
+      .spyOn(encrypterStub, 'encrypt')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      );
     const accountData = {
       name: 'valid_name',
       email: 'valid_email',
-      password: 'valid_password'
-    }
-    const promise = sut.add(accountData)
-    await expect(promise).rejects.toThrow()
-  })
+      password: 'valid_password',
+    };
+    const promise = sut.add(accountData);
+    await expect(promise).rejects.toThrow();
+  });
 
   test('Should call AddAccountRepository with correct values', async () => {
     const { sut, addAccountRepositoryStub } = makeSut();
@@ -80,7 +89,7 @@ describe('DbAddAccount Usecase', () => {
     expect(addSpy).toHaveBeenCalledWith({
       name: 'valid_name',
       email: 'valid_email',
-      password: 'hashed_valid'
+      password: 'hashed_valid',
     });
   });
 
@@ -96,7 +105,7 @@ describe('DbAddAccount Usecase', () => {
       id: 'valid_id',
       name: 'valid_name',
       email: 'valid_email',
-      password: 'hashed_password'
+      password: 'hashed_password',
     });
   });
-})
+});
