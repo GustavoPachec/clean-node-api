@@ -9,5 +9,6 @@ MongoHelper.connect(env.mongoUrl)
       console.log(`Server is running at ✅ http://localhost:${env.port} ✅`);
     });
   })
+
   // eslint-disable-next-line no-console
   .catch(console.error);
