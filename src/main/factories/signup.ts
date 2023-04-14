@@ -17,5 +17,8 @@ export const makeSignUpController = (): Controller => {
     emailValidatorAdapter,
     dbAddAccount
   );
-  return new LogControllerDecorator(signuUpController, LogMongoRepository);
+  return new LogControllerDecorator(
+    signuUpController,
+    new LogMongoRepository()
+  );
 };
