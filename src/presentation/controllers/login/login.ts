@@ -1,33 +1,49 @@
 import { InvalidParamError, MissingParamError } from '../../errors';
-import { badRequest } from '../../helpers/http-helper';
-import { Controller, HttpRequest, HttpResponse } from '../../protocols';
-import { EmailValidator } from '../signup/signup-protocols';
+import {
+  badRequest,
+  serverError,
+  unauthorized,
+  ok,
+} from '../../helpers/http-helper';
+import {
+  Controller,
+  HttpRequest,
+  HttpResponse,
+  EmailValidator,
+  Authentication,
+} from './login-protocols';
 
 export class LoginController implements Controller {
   private readonly emailvalidator: EmailValidator;
 
-  constructor(emailValidator: EmailValidator) {
+  private readonly authentication: Authentication;
+
+  constructor(emailValidator: EmailValidator, authentication: Authentication) {
     this.emailvalidator = emailValidator;
+    this.authentication = authentication;
   }
 
-  // eslint-disable-next-line consistent-return
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const { email, password } = httpRequest.body;
-    if (!email) {
-      return new Promise((resolve) =>
-        resolve(badRequest(new MissingParamError('email')))
-      );
-    }
-    if (!password) {
-      return new Promise((resolve) =>
-        resolve(badRequest(new MissingParamError('password')))
-      );
-    }
-    const isValid = this.emailvalidator.isValid(email);
-    if (!isValid) {
-      return new Promise((resolve) =>
-        resolve(badRequest(new InvalidParamError('email')))
-      );
+    try {
+      const requiredFields = ['email', 'password'];
+      // eslint-disable-next-line no-restricted-syntax
+      for (const field of requiredFields) {
+        if (!httpRequest.body[field]) {
+          return badRequest(new MissingParamError(field));
+        }
+      }
+      const { email, password } = httpRequest.body;
+      const isValid = this.emailvalidator.isValid(email);
+      if (!isValid) {
+        return badRequest(new InvalidParamError('email'));
+      }
+      const accessToken = await this.authentication.auth(email, password);
+      if (!accessToken) {
+        return unauthorized();
+      }
+      return ok({ accessToken });
+    } catch (error) {
+      return serverError(error);
     }
   }
 }
