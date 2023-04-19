@@ -7,6 +7,7 @@ export class ValidationComposite implements Validation {
     this.validations = validations;
   }
 
+  // eslint-disable-next-line consistent-return
   validate(input: any): Error {
     // eslint-disable-next-line no-restricted-syntax
     for (const validation of this.validations) {
@@ -15,6 +16,5 @@ export class ValidationComposite implements Validation {
         return error;
       }
     }
-    return null;
   }
 }
