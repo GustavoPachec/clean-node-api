@@ -1,11 +1,6 @@
 // eslint-disable-next-line max-classes-per-file
-import { AccountModel } from '../db-add-account-protocols';
-import { LoadAccountByEmailRepository } from '../../protocols/db/load-account-by-email-repository';
 import { DbAuthentication } from './db-authentication';
-import { AuthenticationModel } from '../../../domain/usecases/authentication';
-import { HashComparer } from '../../protocols/criptography/ hash-comparer';
-import { TokenGenerator } from '../../protocols/criptography/token-generator';
-import { UpdateAccessTokenRepository } from '../../protocols/db/update-access-token';
+import { AccountModel, LoadAccountByEmailRepository, AuthenticationModel, HashComparer, TokenGenerator, UpdateAccessTokenRepository } from './db-authentication-protocols';
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'any_id',
