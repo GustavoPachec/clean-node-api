@@ -1,17 +1,12 @@
 // eslint-disable-next-line max-classes-per-file
 import { LoginController } from './login';
-import {
-  badRequest,
-  serverError,
-  unauthorized,
-  ok,
-} from '../../helpers/http/http-helper';
+import { badRequest, serverError, unauthorized, ok } from '../../helpers/http/http-helper';
 import { MissingParamError } from '../../errors';
-import { HttpRequest, Authentication, Validation } from './login-protocols';
+import { HttpRequest, Authentication, Validation, AuthenticationModel } from './login-protocols';
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth(_email: string, _password: string): Promise<string> {
+    async auth(_authentication: AuthenticationModel): Promise<string> {
       return new Promise((resolve) => resolve('any_token'));
     }
   }
@@ -55,14 +50,15 @@ describe('Login Controller', () => {
     const { sut, authenticationStub } = makeSut();
     const authSpy = jest.spyOn(authenticationStub, 'auth');
     await sut.handle(makeFakeRequest());
-    expect(authSpy).toHaveBeenCalledWith('any_email@mail.com', 'any_password');
+    expect(authSpy).toHaveBeenCalledWith({
+      email: 'any_email@mail.com',
+      password: 'any_password',
+    });
   });
 
   test('Should return 401 if invalid credentials are provided', async () => {
     const { sut, authenticationStub } = makeSut();
-    jest
-      .spyOn(authenticationStub, 'auth')
-      .mockReturnValueOnce(new Promise((resolve) => resolve(null)));
+    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(new Promise((resolve) => resolve(null)));
     const HttpResponse = await sut.handle(makeFakeRequest());
     expect(HttpResponse).toEqual(unauthorized());
   });
@@ -94,12 +90,8 @@ describe('Login Controller', () => {
 
   test('Should return 400 if Validation return an error', async () => {
     const { sut, validationStub } = makeSut();
-    jest
-      .spyOn(validationStub, 'validate')
-      .mockReturnValueOnce(new MissingParamError('any_field'));
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_field'));
     const httpResponse = await sut.handle(makeFakeRequest());
-    expect(httpResponse).toEqual(
-      badRequest(new MissingParamError('any_field'))
-    );
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('any_field')));
   });
 });
