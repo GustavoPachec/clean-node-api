@@ -1,9 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import validator from 'validator'
-import { EmailValidator } from '../presentation/protocols/email-validator'
+import validator from 'validator';
+import { EmailValidator } from '../../../presentation/protocols/email-validator';
 
 export class EmailValidatorAdapter implements EmailValidator {
   isValid(email: string): boolean {
-    return validator.isEmail(email)
+    return validator.isEmail(email);
   }
 }
