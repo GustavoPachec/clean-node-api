@@ -1,12 +1,12 @@
-import { Collection } from 'mongodb';
+import { Collection, WithId } from 'mongodb';
 import { MongoHelper } from '../helpers/mongo-helper';
-import { AccountMongoRepository } from './account';
+import { AccountMongoRepository } from './account-mongo-repository';
 
 let accountCollection: Collection;
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
-    await MongoHelper.connect(process.env.MONGO_URL);
+    await MongoHelper.connect(process.env.MONGO_URL as string);
   });
 
   afterAll(async () => {
@@ -62,12 +62,13 @@ describe('Account Mongo Repository', () => {
       email: 'any_email@mail.com',
       password: 'any_password',
     });
-    const fakeAccount = await accountCollection.findOne({ _id: id });
-    expect(fakeAccount.accessToken).toBeFalsy();
+    const fakeAccount = (await accountCollection.findOne({ _id: id })) as WithId<any>;
+    expect(fakeAccount).toBeTruthy();
+    expect(fakeAccount?.accessToken).toBeFalsy();
     // eslint-disable-next-line no-underscore-dangle
     await sut.updateAccessToken(fakeAccount._id.toString(), 'any_token');
     // eslint-disable-next-line no-underscore-dangle
-    const account = await accountCollection.findOne({ _id: fakeAccount._id });
+    const account = (await accountCollection.findOne({ _id: fakeAccount._id })) as WithId<any>;
     expect(account).toBeTruthy();
     // eslint-disable-next-line no-underscore-dangle
     expect(account._id).toBeTruthy();
