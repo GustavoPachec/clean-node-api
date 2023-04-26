@@ -3,14 +3,7 @@ import { LogErrorRepository } from '../../data/protocols/db/log/log-error-reposi
 
 // responsavel por registrar os erros que ocorrem durante o processamento da requisição no servidor.
 export class LogControllerDecorator implements Controller {
-  private readonly controller: Controller;
-
-  private readonly logErrorRepository: LogErrorRepository;
-
-  constructor(controller: Controller, logErrorRepository: LogErrorRepository) {
-    this.controller = controller;
-    this.logErrorRepository = logErrorRepository;
-  }
+  constructor(private readonly controller: Controller, private readonly logErrorRepository: LogErrorRepository) {}
 
   // decorator vai chamar o controller com a request correta
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
