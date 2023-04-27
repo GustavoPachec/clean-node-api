@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/main/server.js",
-    "build": "tsc",
+    "build": "rimraf dist && tsc",
     "dev": "sucrase-node src/main/server.ts",
     "prepare": "husky install",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
@@ -53,6 +53,7 @@
     "i": "^0.3.7",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.2.0",
+    "rimraf": "^5.0.0",
     "validator": "^13.9.0"
   },
   "engines": {
