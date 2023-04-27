@@ -74,6 +74,7 @@ const makeSut = (): SutTypes => {
 };
 
 describe('DbAuthentication UseCase', () => {
+  // Deve chamar LoadAccountByEmailRepository com o email correto
   test('Should call LoadAccountByEmailRepository with correct email', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut();
     const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail');
@@ -88,6 +89,7 @@ describe('DbAuthentication UseCase', () => {
     expect(promise).rejects.toThrow();
   });
 
+  // Deve retornar nulo se LoadAccountModelByEmailRepository retornar nulo
   test('Should return null if LoadAccountModelByEmailRepository returns null', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut();
     jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(null);
@@ -95,6 +97,7 @@ describe('DbAuthentication UseCase', () => {
     expect(accessToken).toBeNull();
   });
 
+  // Deve chamar hashComparer com valores corretos
   test('Should call hashComparer with correct values', async () => {
     const { sut, hashComparerStub } = makeSut();
     const compareSpy = jest.spyOn(hashComparerStub, 'compare');
@@ -109,6 +112,7 @@ describe('DbAuthentication UseCase', () => {
     expect(promise).rejects.toThrow();
   });
 
+  // Deve retornar null se HashComparer retornar false
   test('Should return null if HashComparer returns false', async () => {
     const { sut, hashComparerStub } = makeSut();
     jest.spyOn(hashComparerStub, 'compare').mockReturnValueOnce(new Promise((resolve) => resolve(false)));

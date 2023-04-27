@@ -22,15 +22,13 @@ describe('Login Routes', () => {
 
   describe('POST /signup', () => {
     test('Should return 200 on signup', async () => {
-      await request(app)
-        .post('/api/signup')
-        .send({
-          name: 'Guga',
-          email: 'guga@email.com',
-          password: '1234',
-          passwordConfirmation: '1234',
-        })
-        .expect(200);
+      await request(app).post('/api/signup').send({
+        name: 'Guga',
+        email: 'guga@email.com',
+        password: '123',
+        passwordConfirmation: '123',
+      });
+      expect(200);
     });
   });
 
@@ -42,23 +40,19 @@ describe('Login Routes', () => {
         email: 'guga@gmail.com',
         password,
       });
-      await request(app)
-        .post('/api/login')
-        .send({
-          email: 'guga@gmail.com',
-          password: '123',
-        })
-        .expect(200);
+      await request(app).post('/api/login').send({
+        email: 'guga@gmail.com',
+        password: '123',
+      });
+      expect(200);
     });
 
     test('Should return 401 on login', async () => {
-      await request(app)
-        .post('/api/login')
-        .send({
-          email: 'guga@gmail.com',
-          password: '123',
-        })
-        .expect(401);
+      await request(app).post('/api/login').send({
+        email: 'guga@gmail.com',
+        password: '123',
+      });
+      expect(401);
     });
   });
 });

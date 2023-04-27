@@ -17,14 +17,12 @@ describe('SignUp Routes', () => {
   });
 
   test('Should return an account on success', async () => {
-    await request(app)
-      .post('/api/signup')
-      .send({
-        name: 'Guga',
-        email: 'guga@email.com',
-        password: '1234',
-        passwordConfirmation: '1234',
-      })
-      .expect(200);
+    await request(app).post('/api/signup').send({
+      name: 'Guga',
+      email: 'guga@email.com',
+      password: '1234',
+      passwordConfirmation: '1234',
+    });
+    expect(200);
   });
 });

@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "sucrase-node src/main/server.ts",
+    "start": "node dist/main/server.js",
+    "build": "tsc",
+    "dev": "sucrase-node src/main/server.ts",
     "prepare": "husky install",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
@@ -52,5 +54,8 @@
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.2.0",
     "validator": "^13.9.0"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
