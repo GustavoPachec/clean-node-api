@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/main/server.js",
     "build": "rimraf dist && tsc",
-    "debug": "node --inspect=0.0.0.0:9222 --noleazy dist/main/server.js",
+    "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --noleazy ./dist/main/server.js",
     "up": "yarn run build && docker-compose up -d",
     "down": "docker-compose down",
     "prepare": "husky install",
@@ -53,6 +53,7 @@
     "i": "^0.3.7",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.2.0",
+    "nodemon": "^2.0.22",
     "rimraf": "^5.0.0",
     "validator": "^13.9.0"
   },
