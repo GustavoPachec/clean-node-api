@@ -97,6 +97,13 @@ describe('SignUp Controller', () => {
     expect(httpResponse).toEqual(ok(makeFakeAccount()));
   });
 
+  test('Should return 400 if Validation return an error', async () => {
+    const { sut, validationStub } = makeSut();
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_field'));
+    const httpResponse = await sut.handle(makeFakeRequest());
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('any_field')));
+  });
+
   test('Should call Validaton with correct value', async () => {
     const { sut, validationStub } = makeSut();
     const validateSpy = jest.spyOn(validationStub, 'validate');
@@ -105,10 +112,14 @@ describe('SignUp Controller', () => {
     expect(validateSpy).toHaveBeenCalledWith(httpRequest.body);
   });
 
-  test('Should return 400 if Validation return an error', async () => {
-    const { sut, validationStub } = makeSut();
-    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_field'));
-    const httpResponse = await sut.handle(makeFakeRequest());
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('any_field')));
+  test('Should return 500 if Authentication throws', async () => {
+    const { sut, authenticationStub } = makeSut();
+    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(
+      new Promise((resolve, reject) => {
+        reject(new Error());
+      })
+    );
+    const HttpResponse = await sut.handle(makeFakeRequest());
+    expect(HttpResponse).toEqual(serverError(new Error()));
   });
 });
