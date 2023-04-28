@@ -3,6 +3,7 @@ import { SignUpController } from './signup-controller';
 import { MissingParamError, ServerError } from '../../errors';
 import { AccountModel, AddAccount, AddAccountModel, HttpRequest, Validation } from './signup-controller-protocols';
 import { ok, serverError, badRequest } from '../../helpers/http/http-helper';
+import { Authentication, AuthenticationModel } from '../login/login-controller-protocols';
 
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
@@ -13,6 +14,15 @@ const makeAddAccount = (): AddAccount => {
   }
 
   return new AddAccountStub();
+};
+
+const makeAuthentication = (): Authentication => {
+  class AuthenticationStub implements Authentication {
+    async auth(_authentication: AuthenticationModel): Promise<string> {
+      return new Promise((resolve) => resolve('any_token'));
+    }
+  }
+  return new AuthenticationStub();
 };
 
 const makeValidation = (): Validation => {
@@ -44,16 +54,19 @@ interface SutTypes {
   sut: SignUpController;
   addAccountStub: AddAccount;
   validationStub: Validation;
+  authenticationStub: Authentication;
 }
 
 const makeSut = (): SutTypes => {
+  const authenticationStub = makeAuthentication();
   const addAccountStub = makeAddAccount();
   const validationStub = makeValidation();
-  const sut = new SignUpController(addAccountStub, validationStub);
+  const sut = new SignUpController(addAccountStub, validationStub, authenticationStub);
   return {
     sut,
     addAccountStub,
     validationStub,
+    authenticationStub,
   };
 };
 
