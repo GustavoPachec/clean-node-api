@@ -1,9 +1,8 @@
 /* eslint-disable no-new */
-import { InvalidParamError } from '../../errors';
+import { InvalidParamError } from '../../presentation/errors';
 import { CompareFieldsValidation } from './compare-fields-validation';
 
-const makeSut = (): CompareFieldsValidation =>
-  new CompareFieldsValidation('field', 'fieldToCompare');
+const makeSut = (): CompareFieldsValidation => new CompareFieldsValidation('field', 'fieldToCompare');
 
 describe('CompareFields Validation', () => {
   test('Should return a InvalidParamError if validation fails', () => {
