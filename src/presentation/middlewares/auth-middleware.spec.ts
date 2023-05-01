@@ -3,13 +3,19 @@ import { LoadAccountByToken } from '../../domain/usecases/load-account-by-token'
 import { AccessDeniedError } from '../errors';
 import { forbidden } from '../helpers/http/http-helper';
 import { AuthMiddleware } from './auth-middleware';
-import { AccountModel } from '../controllers/signup/signup-controller-protocols';
+import { AccountModel, HttpRequest } from '../controllers/signup/signup-controller-protocols';
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
   name: 'valida_name',
   email: 'valida_email@mail.com',
   password: 'hashed_password',
+});
+
+const makeFakeRequest = (): HttpRequest => ({
+  headers: {
+    'x-access-token': 'any_token',
+  },
 });
 
 interface SutTypes {
@@ -45,11 +51,7 @@ describe('Auth Middleware', () => {
   test('Should call LoadAccountByToken with correct accessToken', async () => {
     const { sut, loadAccountByTokenStub } = makeSut();
     const loadSpy = jest.spyOn(loadAccountByTokenStub, 'load');
-    await sut.handle({
-      headers: {
-        'x-access-token': 'any_token',
-      },
-    });
+    await sut.handle(makeFakeRequest());
     expect(loadSpy).toBeCalledWith('any_token');
   });
 });
