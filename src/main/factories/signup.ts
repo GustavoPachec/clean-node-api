@@ -12,7 +12,7 @@ export const makeSignUpController = (): Controller => {
   const salt = 12;
   const bycrytAdapter = new BcryptAdapter(salt);
   const accountMongoRepository = new AccountMongoRepository();
-  const dbAddAccount = new DbAddAccount(bycrytAdapter, accountMongoRepository);
+  const dbAddAccount = new DbAddAccount(bycrytAdapter, accountMongoRepository, accountMongoRepository);
   const signuUpController = new SignUpController(dbAddAccount, makeSignUpValidation(), makeDbAuthentication());
   const logMongoRepository = new LogMongoRepository();
   return new LogControllerDecorator(signuUpController, logMongoRepository);
