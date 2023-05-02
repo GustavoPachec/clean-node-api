@@ -23,7 +23,7 @@ interface SutTypes {
 
 const makeLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
-    async load(_accessToken: any, _role?: string): Promise<AccountModel> {
+    async load(_accessToken: string, _role?: string): Promise<AccountModel> {
       return new Promise((resolve) => resolve(makeFakeAccount()));
     }
   }
