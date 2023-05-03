@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { makeSignUpController } from '../signup-controller-factory';
-import { adaptRoute } from '../../../../adapters/express/express-routes-adapter';
+import { adaptRoute } from '../../../../../adapters/express-routes-adapter';
 
 export default (router: Router): void => {
   router.post('/signup', adaptRoute(makeSignUpController()));

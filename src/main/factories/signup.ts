@@ -5,8 +5,8 @@ import { AccountMongoRepository } from '../../infra/db/mongodb/account/account-m
 import { Controller } from '../../presentation/protocols';
 import { LogControllerDecorator } from '../decorators/log-controller-decorator';
 import { LogMongoRepository } from '../../infra/db/mongodb/log/log-mongo-repository';
-import { makeSignUpValidation } from './controllers/signup/signup-validation-factory';
-import { makeDbAuthentication } from './usecases/authentication/db-authentication-factory';
+import { makeSignUpValidation } from './controllers/login/signup/signup-validation-factory';
+import { makeDbAuthentication } from './usecases/account/authentication/db-authentication-factory';
 
 export const makeSignUpController = (): Controller => {
   const salt = 12;
