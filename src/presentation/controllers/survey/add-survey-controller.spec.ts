@@ -1,4 +1,5 @@
-// eslint-disable-next-line max-classes-per-file
+// eslint-disable-next-line max-classes-per-file, import/no-extraneous-dependencies
+import MockDate from 'mockdate';
 import { HttpRequest, AddSurveyModel, AddSurvey, Validation } from './add-survey-controller-protocols';
 import { AddSurveyController } from './add-survey-controller';
 import { badRequest, noContent, serverError } from '../../helpers/http/http-helper';
@@ -12,6 +13,7 @@ const makeFakeRequest = (): HttpRequest => ({
         answer: 'any_answer',
       },
     ],
+    date: new Date(),
   },
 });
 
@@ -52,6 +54,13 @@ const makeSut = (): SutTypes => {
 
 describe('AddSurvey Controller', () => {
   // garantindo a integração com o validation
+  beforeAll(() => {
+    MockDate.set(new Date());
+  });
+
+  beforeAll(() => {
+    MockDate.reset();
+  });
   test('Should call validation with correct values', async () => {
     const { sut, validationStub } = makeSut();
     const validateSpy = jest.spyOn(validationStub, 'validate');
