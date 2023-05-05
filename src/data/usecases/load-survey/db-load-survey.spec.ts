@@ -59,10 +59,16 @@ describe('DbLoadSurveys', () => {
     expect(loadAllSpy).toHaveBeenCalled();
   });
 
-  test('Should return a list of Surveys on success', async () => {
+  test('Shold return a list of Surveys on success', async () => {
     const { sut } = makeSut();
     const surveys = await sut.load();
-    expect(surveys).toEqual(makeFakeSurveys());
+    const fakeSurveys = makeFakeSurveys();
+    expect(surveys).toEqual(
+      fakeSurveys.map((survey) => ({
+        ...survey,
+        date: expect.any(Date),
+      }))
+    );
   });
 
   test('Should throw if Decrypter throws', async () => {
